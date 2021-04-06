@@ -25,24 +25,77 @@ def list_book():
         res.append(row["titre"])
     # return json.dumps(result[0]["titre"])
     return res
-   
-        
+
 
 def liste_html():
     books = list_book()
-    html_list_books = """<span class="badge badge-secondary">"""
+    html_list_books = """<a class="btn btn-outline-secondary" href="https://cloudlibrary.azurewebsites.net/api/book?name="""
     for book in books:
         if book != books[-1]:
-            html_list_books += book
-            html_list_books += """</span><br><br><span class="badge badge-secondary">"""
+            html_list_books += """"""+book+"""">"""+book+"""</a> <a class="btn btn-outline-secondary" href="https://cloudlibrary.azurewebsites.net/api/book?name="""
         else:
             html_list_books += book
             # html_list_books += "</h5>"
-            html_list_books += "</span>"
+            html_list_books += "</a>"
     return html_list_books
 
 
 def result_html():
+    result = """
+         <html>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Cloud library Azure</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.min.css" />
+        <br><br><head>""" + my_css()+"""
+        <div class="jumbotron">
+        <h1 class="display-3">Cloud library Azure !</h1>
+        <p class="lead">Voici la liste des livres disponible</p>
+        <hr class="my-4">
+            <p>Clickez sur un livre pour avoir plus d'informations et
+            son lien de téléchargement</p>
+        <p class="lead">
+
+        """ + liste_html() + """
+    </p>
+    </div>
+        </head>
+        <body> <div>
+            <center>
+            <p>
+                <ul></ul>
+            </p></center><div>
+        </body>
+        </html>
+        """
+    return result
+
+def my_css():
+    msg="""<style>
+         h1
+        {
+            font-size: 3em;
+            text-align:left;
+        }
+        h3
+        {
+            text-align:center;
+        }
+        #btn_book{
+            margin:7px;
+        }
+        a.btn.btn-outline-secondary {
+            margin:10px;
+           min-width: 210px;
+            max-width: 210px;
+        }
+        
+        </style>"""
+    return msg
+
+
+def index():
     result = """
         <html>
         <meta charset="UTF-8" />
@@ -50,17 +103,21 @@ def result_html():
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Cloud library Azure</title>
         <link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.min.css" />
-        <br><br><head><center>     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button><h3>Voici la liste des livres disponible</h3>
-        </center> <br><br>
+        <br><br><head>""" + my_css()+"""
+        <div class="jumbotron">
+        <h1 class="display-3">Cloud library Azure !</h1>
+        <p class="lead">Bienvenue sur notre librairie</p>
+        <hr class="my-4">
+            <p>Clickez sur le boutton pour voir nos livres disponibles</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="https://cloudlibrary.azurewebsites.net/api/httptrigger" role="button">Livres</a>
+    </p>
+    </div>
         </head>
         <body> <div>
-          <center>
+            <center>
             <p>
-                <ul>""" + liste_html() + """</ul>
+                <ul></ul>
             </p></center><div>
         </body>
         </html>
