@@ -25,11 +25,11 @@ def main(newBlob: func.InputStream):
     # create dictionnary with word occurrencies
     # parse name
     number_of_words = json.dumps(blob.word_occurrences())
-    title = re.findall(r"[\w']+", newBlob.name)[1]
-
+    # title = re.findall(r"[\w']+", newBlob.name)[1]
+    logging.info(number_of_words)
+    
     # Connect to Azure database and update table information
     conn = mysql.connector.connect(**config_sql)
-    dbf.load_info(conn, number_of_words, title)
+    logging.info(conn)
+    dbf.load_info(conn, number_of_words)
     conn.close()
-
-

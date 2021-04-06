@@ -3,6 +3,7 @@ import argparse
 import configparser
 import logging
 import os.path
+import upload_functions as uf
 from azure.storage.blob import BlobServiceClient, ContainerClient, BlobClient
 import mysql.connector
 import os
@@ -31,9 +32,10 @@ def list_blob(args, containerclient):
     blob_list=containerclient.list_blobs()
     #configure the variable for return all blobs in container
     logging.info(f"list of blobs in container")
-
+    blob_names = []
     for blob in blob_list:
-        print(blob.name)
+        blob_names.append(blob.name)
+    return blob_names
     logging.info(f"list of blobs in container")
 
 
@@ -69,28 +71,21 @@ def main(args,config):
     logging.debug(f"account : {blobclient}")
     containerclient=blobclient.get_container_client(config["storage"]["container"])
     logging.debug(f"container : {containerclient}")
+
     if args.action=="list":
         logging.debug(f"account : {blobclient}")
         logging.debug("start of argument list we return function list_blob")
-        return list_blob(args, containerclient)
-        logging.info(f"{list_blob(args,containerclient)}")
+        uf.print_blob_name(list_blob(args, containerclient))
+        # logging.info(f"{uf.print_blob_name(list_blob(args,containerclient))}")
         logging.debug(f"account : {blobclient}")
 
     else:
         if args.action=="upload":
-            blobclient=containerclient.get_blob_client(os.path.basename(args.cible))
-            print("Connection established")
-            conn = mysql.connector.connect(**config_sql)
-            cursor = conn.cursor()
-            book_title = input("Quel est le titre de votre livre :")
-            book_info = input("Quel est le genre de livre :")
-            blob_url= f'https://cloudlibrary2.blob.core.windows.net/library/{book_title}.txt'
-            cursor.execute("""INSERT INTO library (titre,info,urlblob) VALUES (%s, %s,%s)"""
-                           ,(book_title,book_info,blob_url))
-            conn.commit()
-            logging.debug(f"Udapte file on container client : {blobclient} ")
-            return upload(args.cible, blobclient)
-            logging.info(f"The file {upload(args.cible,blobclient)}has been add on container")
+            book_title, book_gender, containerclient, args.cible = uf.ask_blob_info(containerclient, args.cible)
+            uf.upload_to_database(book_title, book_gender)
+            logging.debug(f"Update file on container client : {containerclient} ")
+            upload(args.cible, containerclient)
+    
 
 
 if __name__=="__main__":
