@@ -39,7 +39,7 @@ def list_book():
 
 
 def info_book(titre):
-
+    pass
 
 
 def index():
