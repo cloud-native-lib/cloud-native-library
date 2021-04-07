@@ -82,9 +82,9 @@ def main(args,config):
     else:
         if args.action=="upload":
             book_title, book_gender, containerclient, args.cible = uf.ask_blob_info(containerclient, args.cible)
-            uf.upload_to_database(book_title, book_gender)
             logging.debug(f"Update file on container client : {containerclient} ")
             upload(args.cible, containerclient)
+            uf.upload_to_database(book_title, book_gender)
     
 
 

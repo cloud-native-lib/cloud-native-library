@@ -57,8 +57,8 @@ def ask_blob_info(containerclient, args_cible):
 
   book_title = input("Quel est le titre de votre livre : ").lower()
   while title_in_database(book_title):
-    print("Ce livre existe déjà, voici une liste des livres qui existent : ")
-    book_title = input("Veuillez réesayer : ").lower()
+    book_title = input("Ce livre existe déjà, veuillez réesayer : ").lower()
+  args_cible = args_cible.replace(".\\", "" )
   while blob_exists(args_cible, containerclient):
     args_cible = input("Ce blob exists déjà veuillez choisir un nouveau fichier : ")
   containerclient = set_blobclient(containerclient, args_cible)
