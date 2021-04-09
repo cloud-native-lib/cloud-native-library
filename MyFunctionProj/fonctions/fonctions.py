@@ -19,14 +19,14 @@ cursor = conn.cursor(dictionary=True)
 
 def jinja_list_book():
 
-    books= list_book()
-    with open('list_book.html') as file_:
+    books= book()
+    with open("list_book.html") as file_:
         template = Template(file_.read())
     result = template.render(books=books)
     return result
 
 
-def list_book():
+def book():
     
     request = cursor.execute("""SELECT titre
     From library""")
@@ -37,12 +37,39 @@ def list_book():
     # return json.dumps(result)
     return res
 
-
-def info_book(titre):
-    pass
+def list_book():
+    
+    request = cursor.execute("""SELECT titre
+    From library""")
+    result = cursor.fetchall()
+    res =[]
+    for row in result:
+        res.append(row["titre"])
+    return json.dumps(result)
+    
 
 
 def index():
 
-    html = open(f"index.html", "r").read()
+    html = open("index.html", "r").read()
     return html
+
+
+def info_book(titre):
+    cursor.execute("""SELECT info,urlblob
+    From library where titre = %s """,(titre,))
+    result = cursor.fetchall()
+    res= []
+    for row in result:
+        res.append(row['info'])
+    for info in res:
+        return info.split(',')
+    
+
+def jinja_info(name):
+    info = info_book(name)
+    name=name
+    with open("info.html") as file_:
+           template = Template(file_.read())
+    result = template.render(info=info,name=name)
+    return result
