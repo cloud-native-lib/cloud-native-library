@@ -1,0 +1,47 @@
+ <html><head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Cloud library Azure</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.min.css" />
+        
+                <style>
+                span.badge.badge-secondary
+                {
+                    min-width: 130px;
+                    max-width: 130px;
+                    margin-top:10px;
+                }
+                h1{
+                    text-align:center
+                }
+        </style></head>
+        <body>
+        <div class="jumbotron">
+        <a class="btn btn-primary btn-lg" href="https://cloudlibrarynp.azurewebsites.net/api/book" role="button">Retour a la liste de livre</a><br>
+        <h1 class="display-3">{{name}}</h1><br>
+        <a class="btn btn-primary btn-lg" href="{{url}}" role="button">Download .txt</a>
+        <hr class="my-4">
+        <p class="lead">
+        <a class="btn btn-primary btn-lg" id="info_btn" onclick="info_livre()"> Tous les mots dans le livre !</a>
+
+            <div id="info" style="display:none;">
+            {% for row in info %}
+                <span class="badge badge-secondary">{{row}}</span>
+                {%endfor%}
+    </p>
+    </div>
+            
+            <script>
+            function info_livre() {
+              var div = document.getElementById("info");
+              if (div.style.display === "none") {
+                div.style.display = "block";
+              } else {
+                div.style.display = "none";
+              }
+            }
+            </script>
+        </body>
+        </html>

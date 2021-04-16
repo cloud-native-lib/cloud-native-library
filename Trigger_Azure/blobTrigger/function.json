@@ -5,8 +5,8 @@
       "name": "newBlob",
       "type": "blobTrigger",
       "direction": "in",
-      "path": "library/{name}",
-      "connection": "cloudlibrary2_STORAGE"
+      "path": "livre/{name}",
+      "connection": "AzureWebJobsStorage"
     }
   ],
   "disabled": false

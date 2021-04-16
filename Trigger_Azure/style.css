@@ -1,0 +1,17 @@
+h1
+{
+    font-size: 3em;
+    text-align:left;
+}
+h3
+{
+    text-align:center;
+}
+#btn_book{
+    margin:7px;
+}
+a.btn.btn-outline-secondary {
+    margin:10px !important;
+   min-width: 210px i !important;
+    max-width: 210px i !important;
+}
